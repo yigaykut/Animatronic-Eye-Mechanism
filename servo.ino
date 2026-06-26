@@ -1,11 +1,7 @@
-#include <Servo.h>
+#include <Wire.h>
+#include <Adafruit_PWMServoDriver.h>
 
-Servo a1x;
-Servo a1y;
-Servo a2x;
-Servo a2y;
-Servo a3u;
-Servo a3d;
+Adafruit_PWMServoDriver pca = Adafruit_PWMServoDriver();
 
 int v1x = 90;
 int v1y = 90;
@@ -23,22 +19,23 @@ int t3d = 90;
 
 unsigned long p_tm = 0;
 
+void s_drv(uint8_t ch, int ang) {
+  int pw = map(ang, 0, 180, 150, 600);
+  pca.setPWM(ch, 0, pw);
+}
+
 void setup() {
   Serial.begin(115200);
+  pca.begin();
+  pca.setOscillatorFrequency(27000000);
+  pca.setPWMFreq(50);
   
-  a1x.attach(3);
-  a1y.attach(5);
-  a2x.attach(6);
-  a2y.attach(9);
-  a3u.attach(10);
-  a3d.attach(11);
-  
-  a1x.write(v1x);
-  a1y.write(v1y);
-  a2x.write(v2x);
-  a2y.write(v2y);
-  a3u.write(v3u);
-  a3d.write(v3d);
+  s_drv(0, v1x);
+  s_drv(1, v1y);
+  s_drv(2, v2x);
+  s_drv(3, v2y);
+  s_drv(4, v3u);
+  s_drv(5, v3d);
 }
 
 void loop() {
@@ -78,11 +75,11 @@ void loop() {
     else if (v3d > t3d) v3d -= 2;
     if (abs(v3d - t3d) < 2) v3d = t3d;
     
-    a1x.write(v1x);
-    a1y.write(v1y);
-    a2x.write(v2x);
-    a2y.write(v2y);
-    a3u.write(v3u);
-    a3d.write(v3d);
+    s_drv(0, v1x);
+    s_drv(1, v1y);
+    s_drv(2, v2x);
+    s_drv(3, v2y);
+    s_drv(4, v3u);
+    s_drv(5, v3d);
   }
 }
