@@ -1,6 +1,9 @@
 # Animatronic-Eye-Mechanism
 This project controls a 6-axis animatronic eye mechanism using an Arduino and a local Qwen Vision-Language Model (VLM). A snake/endoscope camera captures the live feed, passes it to the Qwen model to track a target, and maps the coordinates to drive 6 servo motors via serial communication.
 
+<p align="center">
+  <img src="eye.jpeg" alt="Animatronic Eye Preview" width="600">
+</p>
 
 # Repository Structure
 As shown in the workspace layout, the project consists of the following core files:
